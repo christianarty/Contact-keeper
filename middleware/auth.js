@@ -9,7 +9,7 @@ module.exports = (request, response, next) => {
 	if (!token) {
 		return response
 			.status(401)
-			.send({ msg: 'No token was found, auuthorization denied' });
+			.send({ msg: 'No token was found, authorization denied' });
 	}
 	try {
 		//Take out the token and verify the token. Payload is stored in decoded
