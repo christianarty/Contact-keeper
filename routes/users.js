@@ -48,7 +48,17 @@ router.post(
 					id: user.id
 				}
 			};
-			jwt.sign(payload);
+			jwt.sign(
+				payload,
+				config.get('jwtSecret'),
+				{
+					expiresIn: 360000
+				},
+				(err, token) => {
+					if (err) throw err;
+					response.json({ token });
+				}
+			);
 		} catch (err) {
 			console.error(err.message);
 			response.status(500).send({ msg: 'Sever Error saving User to DB' });
