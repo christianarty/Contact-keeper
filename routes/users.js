@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // @route    POST api/users
 // @desc     Register a user
@@ -41,10 +43,15 @@ router.post(
 
 			await user.save();
 
-			response.send('User saved');
+			const payload = {
+				user: {
+					id: user.id
+				}
+			};
+			jwt.sign(payload);
 		} catch (err) {
 			console.error(err.message);
-			response.status(500).send({msg: 'Sever Error saving User to DB'})
+			response.status(500).send({ msg: 'Sever Error saving User to DB' });
 		}
 	}
 );
