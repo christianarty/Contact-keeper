@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+#client ignore
+/client/build
+.DS_Store
+/client/.env.*.local
+/client/.*.local
