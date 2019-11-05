@@ -12,6 +12,7 @@ import {
   LOGOUT,
   CLEAR_ERRORS
 } from "../types";
+import setAuthToken from "../../utils/setAuthToken";
 
 const AuthState = props => {
   const initalState = {
@@ -25,7 +26,22 @@ const AuthState = props => {
   const [state, dispatch] = useReducer(AuthReducer, initalState);
 
   // Load User
-  const loadUser = () => console.log('load user')
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    try {
+      const response = await axios.get("/api/auth");
+      dispatch({
+        type: USER_LOADED,
+        payload: response.data
+      });
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR
+      });
+    }
+  };
 
   // Register User
   const register = async formData => {
@@ -41,6 +57,8 @@ const AuthState = props => {
         type: REGISTER_SUCCESS,
         payload: response.data
       });
+
+      loadUser();
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
@@ -49,13 +67,14 @@ const AuthState = props => {
     }
   };
   // Login User
-  const login = () => console.log('login')
+  const login = () => console.log("login");
   //Logout
-  const logout = () => console.log('logout')
+  const logout = () => console.log("logout");
   //Clear Errors
-  const clearErrors = () => dispatch({
-    type:CLEAR_ERRORS,
-  })
+  const clearErrors = () =>
+    dispatch({
+      type: CLEAR_ERRORS
+    });
   return (
     <AuthContext.Provider
       value={{
