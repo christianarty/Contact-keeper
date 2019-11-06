@@ -2,6 +2,8 @@
 
 Contact Keeper is a MERN (MongoDB, Express.js, React.js, Node.js) Application that manages your contacts. It has user authentication through JWTs.
 
+
+You can visit the site at [https://christianartycontactkeeper.herokuapp.com](https://christianartycontactkeeper.herokuapp.com)
 ## Installation
 
 Clone this repo and npm install the package.json
@@ -10,6 +12,7 @@ Clone this repo and npm install the package.json
 git clone https://github.com/christianarty/Contact-keeper.git
 cd Contact-keeper/
 npm install
+npm clientinstall
 ```
 
 Now you have to edit your environment variables
@@ -25,13 +28,7 @@ Now you have to edit your environment variables
 After that initalization, you can run the dev server using:
 
 ```bash
-npm run server
-```
-
-or the soon-to-be production npm command:
-
-```bash
-npm run start
+npm run dev
 ```
 
 ## Technologies Used in this project:
@@ -44,7 +41,7 @@ npm run start
 
 ## Status
 
-The backend is still being built, but close to being done. The frontend still needs to be developed. So as of right now, only api calls through postman (or whatever else you use) can be sent. More progress is being made on this project daily so, I'll keep this section updated.
+The application has been completed, frontend-to-backend. Any additional improvements are welcome. 
 
 ## Contributing
 
