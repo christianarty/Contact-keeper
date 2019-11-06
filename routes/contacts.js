@@ -12,7 +12,7 @@ router.get('/', auth, async (request, response) => {
 		const contacts = await Contact.find({ user: request.user.id }).sort({
 			date: -1
 		});
-		response.send({ contacts });
+		response.send( contacts );
 	} catch (err) {
 		console.error(err.message);
 		response.status(500).send('Server Error');
