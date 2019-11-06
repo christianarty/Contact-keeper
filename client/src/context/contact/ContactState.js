@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import uuid from "uuid";
 import ContactContext from "./contactContext";
 import ContactReducer from "./contactReducer";
+import axios from "axios";
 import {
   ADD_CONTACT,
   UPDATE_CONTACT,
@@ -9,44 +10,33 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   FILTER_CONTACTS,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  CONTACT_ERROR
 } from "../types";
 
 const ContactState = props => {
   const initalState = {
-    contacts: [
-      {
-        id: 1,
-        name: "Jill Johnson",
-        email: "jilljohn@gmail.com",
-        phone: "144-436-4722",
-        contactType: "personal"
-      },
-      {
-        id: 2,
-        name: "Harry White",
-        email: "harryw@gmail.com",
-        phone: "344-436-4821",
-        contactType: "personal"
-      },
-      {
-        id: 3,
-        name: "Jane Doe",
-        email: "janeD@gmail.com",
-        phone: "123-456-7891",
-        contactType: "professional"
-      }
-    ],
+    contacts: [],
     current: null,
-    filtered: null
+    filtered: null,
+    error: null
   };
 
   const [state, dispatch] = useReducer(ContactReducer, initalState);
 
   //Add contact
-  const addContact = contact => {
-    contact.id = uuid.v4();
-    dispatch({ type: ADD_CONTACT, payload: contact });
+  const addContact = async contact => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    try {
+      const response = await axios.post("/api/contacts", contact, config);
+      dispatch({ type: ADD_CONTACT, payload: response.data });
+    } catch (error) {
+      dispatch({ type: CONTACT_ERROR, payload: error.response.msg });
+    }
   };
 
   //Delete contact
@@ -79,12 +69,13 @@ const ContactState = props => {
       value={{
         contacts: state.contacts,
         current: state.current,
+        error: state.error,
+        filtered: state.filtered,
         addContact,
         deleteContact,
         setCurrent,
         clearCurrent,
         updateContact,
-        filtered: state.filtered,
         filterContacts,
         clearFilter
       }}
