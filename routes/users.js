@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 
 // @route    POST api/users
 // @desc     Register a user
@@ -50,7 +50,7 @@ router.post(
 			};
 			jwt.sign(
 				payload,
-				config.get('jwtSecret'),
+				process.env.JWT_SECRET,
 				{
 					expiresIn: 360000
 				},
